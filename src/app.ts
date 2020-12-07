@@ -3,7 +3,6 @@ import express from 'express';
 import session from 'express-session';
 import passport from 'passport';
 import OAuth2Strategy, { VerifyCallback } from 'passport-oauth2';
-import TwitchApi from 'node-twitch';
 
 import routes from './routes';
 
@@ -81,8 +80,6 @@ passport.use(
             profile.accessToken = accessToken;
             // eslint-disable-next-line no-param-reassign
             profile.refreshToken = refreshToken;
-
-            console.log('teste');
 
             // Securely store user profile in your DB
             // User.findOrCreate(..., function(err, user) {
