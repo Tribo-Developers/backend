@@ -10,10 +10,24 @@
     "dev:server": "ts-node-dev --transpile-only --ignore-watch node_modules src/server.ts"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "@callowcreation/basic-twitch-oauth": "^1.0.6",
+    "crypto": "^1.0.1",
+    "express": "^4.17.1",
+    "express-session": "^1.15.2",
+    "handlebars": "^4.0.6",
+    "node-twitch": "^0.2.1",
+    "passport": "^0.3.2",
+    "passport-oauth": "^1.0.0",
+    "passport-oauth2": "^1.5.0",
+    "querystring": "^0.2.0",
+    "request": "^2.81.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.9",
+    "@types/express-session": "^1.17.3",
+    "@types/passport": "^1.0.4",
+    "@types/passport-oauth2": "^1.4.9",
+    "@types/request": "^2.48.5",
     "@typescript-eslint/eslint-plugin": "^4.9.0",
     "@typescript-eslint/parser": "^4.9.0",
     "eslint": "6.8.0",
