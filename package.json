@@ -7,12 +7,13 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "dev:server": "ts-node-dev --transpile-only --ignore-watch node_modules src/server.ts",
+    "dev:server": "NODE_ENV=dev && ts-node-dev --transpile-only --ignore-watch node_modules src/server.ts",
     "start": "node ./dist/server.js"
   },
   "dependencies": {
     "@callowcreation/basic-twitch-oauth": "^1.0.6",
     "crypto": "^1.0.1",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.15.2",
     "handlebars": "^4.0.6",
