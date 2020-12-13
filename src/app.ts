@@ -1,4 +1,5 @@
 // Define our dependencies
+require("dotenv").config()
 import express from 'express';
 import session from 'express-session';
 import passport from 'passport';
@@ -6,19 +7,14 @@ import OAuth2Strategy, { VerifyCallback } from 'passport-oauth2';
 
 import routes from './routes';
 
-// Define our constants, you will change these with your own
-const TWITCH_CLIENT_ID = 'i4ryy5pob5jjyywmvff84n0ay4fmv7';
-const TWITCH_SECRET = 'c16f7pcowyvqwwvt094kpu2wmouisz';
-const SESSION_SECRET = 'tribo';
-const CALLBACK_URL = 'tribogaules://'; // You can run locally with - http://localhost:3333/auth/twitch/callback
-
 const app = express();
+
 app.use(express.json());
 app.use(routes);
 
 app.use(
     session({
-        secret: SESSION_SECRET,
+        secret: process.env.SESSION_SECRET || '',
         resave: false,
         saveUninitialized: false,
     }),
@@ -33,7 +29,7 @@ OAuth2Strategy.prototype.userProfile = (accessToken, done) => {
         url: 'https://api.twitch.tv/helix/users',
         method: 'GET',
         headers: {
-            'Client-ID': TWITCH_CLIENT_ID,
+            'Client-ID': process.env.TWITCH_CLIENT_ID || '',
             Accept: 'application/vnd.twitchtv.v5+json',
             Authorization: `Bearer ${accessToken}`,
         },
@@ -65,9 +61,9 @@ passport.use(
         {
             authorizationURL: 'https://id.twitch.tv/oauth2/authorize',
             tokenURL: 'https://id.twitch.tv/oauth2/token',
-            clientID: TWITCH_CLIENT_ID,
-            clientSecret: TWITCH_SECRET,
-            callbackURL: CALLBACK_URL,
+            clientID: process.env.TWITCH_CLIENT_ID || '',
+            clientSecret: process.env.TWITCH_SECRET || '',
+            callbackURL: process.env.CALLBACK_URL || '',
             state: true,
         },
         (
@@ -88,7 +84,7 @@ passport.use(
 
             verified(null, profile);
         },
-    ),
+    )
 );
 
 // Set route to start OAuth link, this is where you define scopes to request
@@ -105,5 +101,6 @@ app.get(
         failureRedirect: '/',
     }),
 );
+
 
 export default app;
