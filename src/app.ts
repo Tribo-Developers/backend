@@ -5,16 +5,13 @@ import passport from 'passport';
 import OAuth2Strategy, { VerifyCallback } from 'passport-oauth2';
 
 import routes from './routes';
+import Profile from './Domain/profile';
 
 // Define our constants, you will change these with your own
-const TWITCH_CLIENT_ID = 'i4ryy5pob5jjyywmvff84n0ay4fmv7';
-const TWITCH_SECRET = 'c16f7pcowyvqwwvt094kpu2wmouisz';
-
-const STREAMELEMENTS_CLIENT_ID = 'f5341e614456f2f0';
-const STREAMELEMENTS_SECRET = '02ae024e26f880e0a5d8fd1fc3492881';
-
-const SESSION_SECRET = 'tribo';
-const CALLBACK_URL = 'tribogaules://'; // You can run locally with - http://localhost:3333/auth/twitch/callback, http://localhost:3333/auth/streamelements/callback
+const TWITCH_CLIENT_ID = 'i4ryy5pob5jjyywmvff84n0ay4fmv7'; //! change it for: process.env.TWITCH-CLIENT
+const TWITCH_SECRET = 'c16f7pcowyvqwwvt094kpu2wmouisz'; //! change it for: process.env.TWITCH-SECRET
+const SESSION_SECRET = 'tribo'; //! change it for: process.env.TWITCH_SESSION_SECRET
+const CALLBACK_URL = 'tribogaules://'; //! change it for: process.env.TWITCH_CALLBACK_URL
 
 const app = express();
 app.use(express.json());
@@ -40,11 +37,6 @@ passport.deserializeUser((user, done) => {
     done(null, user);
 });
 
-type ProfileToken = {
-    accessToken: string;
-    refreshToken: string;
-};
-
 passport.use(
     'twitch',
     new OAuth2Strategy(
@@ -59,49 +51,9 @@ passport.use(
         (
             accessToken: string,
             refreshToken: string,
-            profile: ProfileToken,
+            profile: Profile,
             verified: VerifyCallback,
         ) => {
-            // eslint-disable-next-line no-param-reassign
-            profile.accessToken = accessToken;
-            // eslint-disable-next-line no-param-reassign
-            profile.refreshToken = refreshToken;
-
-            console.log('User logged');
-            // Securely store user profile in your DB
-            // User.findOrCreate(..., function(err, user) {
-            //  done(err, user);
-            // });
-
-            verified(null, profile);
-        },
-    ),
-);
-
-passport.use(
-    'streamelements',
-    new OAuth2Strategy(
-        {
-            authorizationURL: 'https://api.streamelements.com/oauth2/authorize',
-            tokenURL: 'https://api.streamelements.com/oauth2/token',
-            clientID: STREAMELEMENTS_CLIENT_ID,
-            clientSecret: STREAMELEMENTS_SECRET,
-            callbackURL: CALLBACK_URL,
-            state: false,
-            scope: ['channel:read'],
-        },
-        (
-            accessToken: string,
-            refreshToken: string,
-            profile: ProfileToken,
-            verified: VerifyCallback,
-        ) => {
-            // eslint-disable-next-line no-param-reassign
-            profile.accessToken = accessToken;
-            // eslint-disable-next-line no-param-reassign
-            profile.refreshToken = refreshToken;
-
-            console.log('User logged');
             // Securely store user profile in your DB
             // User.findOrCreate(..., function(err, user) {
             //  done(err, user);
