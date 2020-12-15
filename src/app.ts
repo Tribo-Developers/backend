@@ -1,14 +1,17 @@
 // Define our dependencies
-require("dotenv").config()
 import express from 'express';
 import session from 'express-session';
 import passport from 'passport';
 import OAuth2Strategy, { VerifyCallback } from 'passport-oauth2';
 
+import dotenv from 'dotenv';
 import routes from './routes';
-import Profile from './Domain/profile';
+import Profile from './domain/profile';
 
 const app = express();
+
+// process.env config
+dotenv.config();
 
 app.use(express.json());
 
@@ -57,7 +60,7 @@ passport.use(
 
             verified(null, profile);
         },
-    )
+    ),
 );
 
 export default app;
