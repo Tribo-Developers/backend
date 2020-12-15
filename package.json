@@ -8,6 +8,7 @@
   "scripts": {
     "build": "tsc",
     "dev:server": "NODE_ENV=dev && ts-node-dev --transpile-only --ignore-watch node_modules src/server.ts",
+    "dev:server:windows": "SET NODE_ENV=dev & ts-node-dev --transpile-only --ignore-watch node_modules src/server.ts",
     "start": "node ./dist/server.js"
   },
   "dependencies": {
