@@ -1,4 +1,3 @@
-import gaulesConfig from '../config/gaulesConfig';
 import AppError from '../errors/AppError';
 import { openApi } from './streamElementsApi';
 
@@ -67,7 +66,7 @@ interface Response {
 class GetStreamElementsItemsService {
     public async execute(): Promise<[Response]> {
         const response = await openApi.get(
-            `/store/${gaulesConfig.TWITCH_GAULES_ID}/items`,
+            `/store/${process.env.TWITCH_GAULES_ID || ''}/items`,
         );
 
         if (response.status !== 200 && response.statusText !== 'ok') {
