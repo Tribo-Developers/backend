@@ -1,5 +1,6 @@
 // Define our dependencies
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
+import 'express-async-errors';
 import session from 'express-session';
 import passport from 'passport';
 import OAuth2Strategy, { VerifyCallback } from 'passport-oauth2';
@@ -7,6 +8,7 @@ import OAuth2Strategy, { VerifyCallback } from 'passport-oauth2';
 import dotenv from 'dotenv';
 import routes from './routes';
 import Profile from './domain/profile';
+import AppError from './errors/AppError';
 
 const app = express();
 
@@ -62,5 +64,19 @@ passport.use(
         },
     ),
 );
+
+app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
+    if (err instanceof AppError) {
+        return response.status(err.statusCode).json({
+            status: 'Error',
+            message: err.message,
+        });
+    }
+    console.log(err.message);
+    return response.status(500).json({
+        status: 'Error',
+        message: 'Internal server error',
+    });
+});
 
 export default app;

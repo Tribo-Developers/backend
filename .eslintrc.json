@@ -36,7 +36,10 @@
               "allowExpressions": true
             }
         ],
-        "prettier/prettier": "error"
+        "prettier/prettier": "error",
+        "@typescript-eslint/no-unused-vars": ["error", {
+            "argsIgnorePattern": "_"
+        }],
     },
     "settings": {
         "import/resolver": {
