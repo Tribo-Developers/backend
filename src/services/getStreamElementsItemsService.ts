@@ -1,22 +1,9 @@
 import AppError from '../errors/AppError';
 import { openApi } from './streamElementsApi';
 import Item from '../models/Item';
+import filteredItem from '../models/FilteredItem';
 
-interface filteredItem {
-    id: string;
-    name: string;
-    description: string;
-    type: string;
-    cost: number;
-    image: string;
-    public: boolean;
-    userInput: [string];
-    subscriberOnly: boolean;
-    quantity: {
-        total: number;
-        current: number;
-    };
-}
+
 
 class GetStreamElementsItemsService {
     public async execute(): Promise<[filteredItem]> {

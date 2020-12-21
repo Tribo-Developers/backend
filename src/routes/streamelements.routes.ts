@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import GetStreamElementsItemService from '../services/getStreamElementsItemService';
 import GetStreamElementsItemsService from '../services/getStreamElementsItemsService';
 import GetStreamElementsUserPoints from '../services/getStreamElementsUserPoints';
 
@@ -8,6 +9,13 @@ streamElementsRouter.get('/items', async (request, response) => {
     const getStreamElementsService = new GetStreamElementsItemsService();
     const items = await getStreamElementsService.execute();
     return response.json(items);
+});
+
+streamElementsRouter.get('/items/:id', async (request, response) => {
+    const { id } = request.params;
+    const getStreamElementsItemService = new GetStreamElementsItemService();
+    const item = await getStreamElementsItemService.execute(id);
+    return response.json(item);
 });
 
 streamElementsRouter.get('/points/:username', async (request, response) => {
