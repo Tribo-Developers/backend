@@ -12,7 +12,7 @@ class GetStreamElementsItemService {
 
         const items = await getStreamElementsItemsService.execute();
 
-        const itemFounded = items.findIndex(Item => (Item.id = itemId)); // eslint-disable-line
+        const itemFounded = items.findIndex(Item => (Item.id == itemId)); // eslint-disable-line
 
         if (itemFounded < 0) {
             throw new AppError('Item not found', 404);
