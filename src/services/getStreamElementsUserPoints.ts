@@ -12,7 +12,9 @@ class GetStreamElementsUserPoints {
         );
 
         if (response.status !== 200 && response.statusText !== 'ok') {
-            throw new AppError('Error on get items from streamelements API');
+            throw new AppError(
+                'Error on get user points from streamelements API',
+            );
         }
 
         const user = response.data as User;
