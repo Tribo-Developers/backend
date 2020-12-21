@@ -32,7 +32,7 @@ class GetStreamElementsItemsService {
 
         const items: [filteredItem] = [];
 
-        result.map(item => {
+        result.map(item => { // eslint-disable-line
             items.push({
                 id: item._id, // eslint-disable-line
                 name: item.name,
