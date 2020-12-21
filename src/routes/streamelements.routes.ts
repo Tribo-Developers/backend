@@ -1,4 +1,4 @@
-import { response, Router } from 'express';
+import { Router } from 'express';
 import GetStreamElementsItemsService from '../services/getStreamElementsItemsService';
 
 const streamElementsRouter = Router();
