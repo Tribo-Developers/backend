@@ -7,7 +7,7 @@ import OAuth2Strategy, { VerifyCallback } from 'passport-oauth2';
 
 import dotenv from 'dotenv';
 import routes from './routes';
-import Profile from './domain/profile';
+import Profile from './models/profile';
 import AppError from './errors/AppError';
 
 const app = express();
