@@ -1,0 +1,282 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "Backend Tribo API Docs",
+      "description": "Documentation from backend for Tribo App",
+      "version": "1.0"
+    },
+    "produces": ["application/json"],
+    "host": "localhost:3333",
+    "basePath": "/",
+    "paths": {
+      "/auth/twitch": {
+        "get": {
+          "x-swagger-router-controller": "middleware-name1",
+          "operationId": "authTwitch",
+          "tags": ["/auth"],
+          "description": "Twitch Authentication",
+          "parameters": [],
+          "responses": {
+            "200": {
+                "description": "Success",
+                "headers": {
+                    "server_session_id": {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "cookie"
+                    },
+                    "unique_id": {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "cookie"
+                    },
+                    "unique_id_durable": {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "cookie"
+                    }
+                }
+            }
+        }
+      }
+    },
+      "/streamelements/items": {
+        "get": {
+          "operationId": "ItemsStreamElements",
+          "tags": ["/streamelements"],
+          "description": "Get items from StreamElements",
+          "parameters": [],
+          "responses": {
+              "200": {
+                  "description": "Success",
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Item"
+                    }
+                  }
+              },
+              "400": {
+                  "description": "Bad Request",
+                  "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                            "type": "string",
+                            "example": "Error"
+                        },
+                        "message":{
+                            "type": "string",
+                            "example": "Error on get items from streamelements API"
+                        }
+                      }
+                  }
+              },
+              "500": {
+                  "description": "Unexpected Error",
+                  "schema": {
+                     "$ref": "#/definitions/Error"
+                  }
+              }
+          }
+        }
+      },
+      "/streamelements/items/{ItemID}": {
+        "get": {
+          "operationId": "ItemStreamElements",
+          "tags": ["/streamelements"],
+          "description": "Get a single item from StreamElements",
+          "parameters": [
+              {
+                  "in": "path",
+                  "name": "ItemID",
+                  "schema":{
+                      "type": "string"
+                  },
+                  "required": true
+              }
+          ],
+          "responses": {
+              "200": {
+                  "description": "Success",
+                  "schema": {
+                      "$ref": "#/definitions/Item"
+                  }
+              },
+              "400": {
+                  "description": "Bad Request",
+                  "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                            "type": "string",
+                            "example": "Error"
+                        },
+                        "message":{
+                            "type": "string",
+                            "example": "Invalid Item ID"
+                        }
+                      }
+                  }
+              },
+              "404": {
+                  "description": "Item not found",
+                  "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                            "type": "string",
+                            "example": "Error"
+                        },
+                        "message":{
+                            "type": "string",
+                            "example": "Item not found"
+                        }
+                      }
+                  }
+              },
+              "500": {
+                  "description": "Unexpected Error",
+                  "schema": {
+                     "$ref": "#/definitions/Error"
+                  }
+              }
+          }
+        }
+      },
+      "/streamelements/points/{Username}": {
+        "get": {
+          "operationId": "StreamElementsUserPoints",
+          "tags": ["/streamelements"],
+          "description": "Get User gaupoints",
+          "parameters": [
+            {
+                "in": "path",
+                "name": "Username",
+                "schema":{
+                    "type": "string"
+                },
+                "required": true
+            }
+          ],
+          "responses": {
+              "200": {
+                  "description": "Success",
+                  "schema": {
+                      "$ref": "#/definitions/UserPoints"
+                  }
+              },
+              "400": {
+                  "description": "Bad Request",
+                  "schema": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                            "type": "string",
+                            "example": "Error"
+                        },
+                        "message":{
+                            "type": "string",
+                            "example": "Error on get user points from streamelements API"
+                        }
+                      }
+                  }
+              },
+              "500": {
+                  "description": "Unexpected Error",
+                  "schema": {
+                     "$ref": "#/definitions/Error"
+                  }
+              }
+          }
+        }
+      }
+    },
+    "definitions": {
+        "Item": {
+            "type": "object",
+            "properties" : {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "cost": {
+                    "type": "number"
+                },
+                "image": {
+                    "type": "string"
+                },
+                "public": {
+                    "type": "boolean"
+                },
+                "userInput": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "subscriberOnly": {
+                    "type": "boolean"
+                },
+                "quantity": {
+                    "type": "object",
+                    "properties": {
+                        "total": {
+                            "type": "number"
+                        },
+                        "current": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "Error": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "example": "Error"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Internal server error"
+                }
+            }
+        },
+        "UserPoints": {
+            "type": "object",
+            "properties": {
+                "channel": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                },
+                "points": {
+                    "type": "number"
+                },
+                "pointsAlltime": {
+                    "type": "number"
+                },
+                "watchtime": {
+                    "type": "number"
+                },
+                "rank": {
+                    "type": "number"
+                }
+            }
+        }
+    }
+ }
